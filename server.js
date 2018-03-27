@@ -21,7 +21,14 @@ client.on('error', err => console.error(err));
 
 //API endpoints
 
-app.get('/api/v1/books', (req,res) =>res.send('It lives!'));
+app.use(cors());
+
+app.get('/api/v1/books', (req,res) => {
+    client.query(
+        `SELECT book_id, title, author, image_url FROM books;`)
+        .then(result => res.send(result.rows))
+        .catch(console.error);
+    });
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
 
