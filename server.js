@@ -5,6 +5,7 @@
 const express = require('express');
 const pg = require('pg');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 // Application Setup
 
@@ -14,9 +15,9 @@ const CLIENT_URL = process.env.CLIENT_URL;
 
 // Database Setup
 
-// const client = new pg.Client(process.env.DATABASE_URL);
-// client.connect();
-// client.on('error', err => console.error(err));
+const client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
+client.on('error', err => console.error(err));
 
 //API endpoints
 
