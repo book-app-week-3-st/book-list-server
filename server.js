@@ -40,7 +40,7 @@ app.get('api/v1/books/:id', (req, res) => {
 
 app.post('/api/v1/books', (req, res) => {
     client.query(
-        `INSERT INRO
+        `INSERT INTO
         books(title, author, isbn, "image_url", description)
         VALUES ($1, #2, $3, $4, $5, $6);`,
         [
@@ -52,7 +52,7 @@ app.post('/api/v1/books', (req, res) => {
         ]
     )
     .then(function() {
-        response.send(`insert complete`)
+        response.send(`insert complete`);
     })
     .catch(function(err) {
         console.error(err);
