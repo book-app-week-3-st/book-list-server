@@ -30,35 +30,36 @@ app.get('/api/v1/books', (req,res) => {
         .catch(console.error);
     });
 
-app.get('api/v1/books/:id', (req, res) => {
+app.get('/api/v1/books/:id', (req, res) => {
+    console.log(req.params.id);
     client.query(
-        `SELECT * FROM books WHERE author_id=$1;`,
-        [request.params.id])
+        `SELECT * FROM books WHERE book_id=$1;`,
+        [req.params.id])
         .then(result => res.send(result.rows))
-        .catch(console.error)
+        .catch(console.error);
 });
 
 app.post('/api/v1/books', (req, res) => {
     client.query(
-        `INSERT INRO
+        `INSERT INTO
         books(title, author, isbn, "image_url", description)
         VALUES ($1, #2, $3, $4, $5, $6);`,
         [
-            request.body.title,
-            request.body.author,
-            request.body.isbn,
-            request.body.image_url,
-            request.body.description
+            req.body.title,
+            req.body.author,
+            req.body.isbn,
+            req.body.image_url,
+            req.body.description
         ]
     )
     .then(function() {
-        response.send(`insert complete`)
+        res.send(`insert complete`);
     })
     .catch(function(err) {
         console.error(err);
     });
 });
 
-app.get('*', (req, res) => res.redirect(CLIENT_URL));
+// app.get('*', (req, res) => res.redirect(CLIENT_URL));
 
 app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
