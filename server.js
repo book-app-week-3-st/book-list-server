@@ -6,6 +6,7 @@ const express = require('express');
 const pg = require('pg');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const TOKEN = process.env.TOKEN;
 
 // Application Setup
 
@@ -84,16 +85,19 @@ app.put('/api/v1/books/:id', (request, response) => {
 app.delete('/api/v1/books/:id', (request, response) => {
   console.log(request.params.id);
   client.query(
-      `DELETE FROM books WHERE book_id=$1;`, [request.params.id]
-    )
+    `DELETE FROM books WHERE book_id=$1;`, [request.params.id]
+  )
     .then(() => response.send('Delete complete'))
     .catch(console.error);
 });
 
-app.get('api/v1/admin', (req, res) => res.send(TOKEN === parseInt(req.query.token)))
-  // app.get('/admin', (req, res) => console.log(req.query.token))
+app.get('/api/v1/admin', (req, res) => res.send(TOKEN === parseInt(req.query.token)));
+app.get('/admin', (req, res) => console.log(req.query.token));
 
 
 app.get('*', (req, res) => res.redirect(CLIENT_URL));
+
+app.get('/admin', (req, res) => res.send(TOKEN === parseInt(req.query.token)));
+app.get('/admin', (req, res) => console.log(req.query.token));
 
 app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
